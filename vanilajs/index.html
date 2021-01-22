@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>* setInterval을 이용해 1초마다 숫자가 바뀌는 초시계 만들기 * </title>
+    <style>
+        .clock {
+            width: 200px;
+            height: 200px;
+            font-size: 100px;
+            color: #fff;
+            background: purple;
+            text-align: center;
+            line-height: 200px;
+            /* 이동 응용을 css transition으로 나타냈을 경우 */
+            transition: all 1s linear;
+        }
+        .clock.active {
+            transform: translateX(200px);
+        }
+    </style>
+</head>
+<body>
+    <!-- https://grace-go.tistory.com/86 -->
+    <div class="clock">0</div>
+    <button class="play">시작</button>
+    <button class="pause">정지</button>
+    <button class="right">이동</button>
+    <button class="cssmove">CSS로 애니메이션</button>
+
+    <script>
+        const clock = document.querySelector(".clock")
+        const play = document.querySelector(".play")
+        const pause = document.querySelector(".pause")
+        const right = document.querySelector(".right")
+        const cssmove = document.querySelector(".cssmove")
+
+        let num = 1
+        let move = null //setInterval 할 변수, clear하려면 변수에 담아야함
+        play.addEventListener('click', () => {
+            clearInterval(move)
+            move = setInterval( () => {
+                clock.innerHTML = num;
+                num++;
+            }, 1000)
+        })
+
+        /*응용 : 이동 버튼을 누르면 시계가 오른쪽으로 200px 이동하게 하기*/
+        let xPoint = 0;
+        right.addEventListener('click', () => {
+            const tt = setInterval( () => {
+                xPoint++
+                if(xPoint>=200) clearInterval(tt)
+                clock.style.transform = "translateX(" + xPoint + "px)";
+            }, 5)
+        })
+
+        cssmove.addEventListener('click', () => {
+            clock.classList.add("active")
+        })
+    </script>
+</body>
+</html>
